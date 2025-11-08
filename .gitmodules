@@ -1,0 +1,6 @@
+[submodule "GeneralCMakePresets"]
+	path = GeneralCMakePresets
+	url = https://github.com/ChristianHinkle/GeneralCMakePresets.git
+[submodule "GeneralCMakeModules"]
+	path = GeneralCMakeModules
+	url = https://github.com/ChristianHinkle/GeneralCMakeModules.git

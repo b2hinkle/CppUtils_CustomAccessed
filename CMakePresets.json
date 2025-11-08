@@ -1,0 +1,74 @@
+{
+    "version": 10,
+    "cmakeMinimumRequired": {
+        "major": 4,
+        "minor": 0,
+        "patch": 0
+    },
+    "$comment": [
+        "Copyright (c) 2023-2025 Christian Hinkle, Brian Hinkle.",
+        "Includes: We have includes of utility files search from the `${sourceDir}` (which is the top-level project's directory), so that it's the responsibility of the top-level project to provide these files. We do this to avoid multiple includes to duplicate files. CMake throws an error if a preset is defined twice with the same name, but it does allow duplicate includes to the same file."
+    ],
+    "include": [
+        "${sourceDir}/GeneralCMakePresets/GeneralPresets.json"
+    ],
+    "testPresets": [
+        {
+            "name": "cpputils-customaccessed-base",
+            "hidden": true,
+            "filter": {
+                "include": {
+                    "name": "CppUtils.CustomAccessed."
+                }
+            }
+        },
+        {
+            "name": "cpputils-customaccessed-win-debug",
+            "displayName": "CppUtils.CustomAccessed - Windows Debug",
+            "inherits": [
+                "cpputils-customaccessed-base",
+                "win-debug"
+            ]
+        },
+        {
+            "name": "cpputils-customaccessed-win-release",
+            "displayName": "CppUtils.CustomAccessed - Windows Release",
+            "inherits": [
+                "cpputils-customaccessed-base",
+                "win-release"
+            ]
+        },
+        {
+            "name": "cpputils-customaccessed-linux-debug",
+            "displayName": "CppUtils.CustomAccessed - Linux Debug",
+            "inherits": [
+                "cpputils-customaccessed-base",
+                "linux-debug"
+            ]
+        },
+        {
+            "name": "cpputils-customaccessed-linux-release",
+            "displayName": "CppUtils.CustomAccessed - Linux Release",
+            "inherits": [
+                "cpputils-customaccessed-base",
+                "linux-release"
+            ]
+        },
+        {
+            "name": "cpputils-customaccessed-macos-debug",
+            "displayName": "CppUtils.CustomAccessed - macOS Debug",
+            "inherits": [
+                "cpputils-customaccessed-base",
+                "macos-debug"
+            ]
+        },
+        {
+            "name": "cpputils-customaccessed-macos-release",
+            "displayName": "CppUtils.CustomAccessed - macOS Release",
+            "inherits": [
+                "cpputils-customaccessed-base",
+                "macos-release"
+            ]
+        }
+    ]
+}
