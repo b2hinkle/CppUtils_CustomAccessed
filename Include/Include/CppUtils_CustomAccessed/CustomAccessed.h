@@ -13,11 +13,7 @@ namespace CppUtils
 
     public:
 
-        // Provide default ctr to support potential UStructs users. Automatically use type's default value.
-        CustomAccessed()
-            : CustomAccessed(T{})
-        {
-        }
+        CustomAccessed() = default;
 
         // TODO: We should support other overloads as well.
         CustomAccessed(T defaultValue)
@@ -53,7 +49,7 @@ namespace CppUtils
             return GetValue();
         }
         
-        T Value;
+        T Value = T{};
 
     #if 0
         // TODO: Must have generic solution for this that doesn't care about any delegate.
