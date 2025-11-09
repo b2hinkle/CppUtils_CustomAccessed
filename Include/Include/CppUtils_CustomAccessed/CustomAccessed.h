@@ -16,11 +16,8 @@ namespace CppUtils
         class T,
         class AccessorPolicy = CppUtils::CommonAccessorPolicies::DefaultAccessorPolicy<T>
     >
-    struct CustomAccessed : public CustomAccessedBase<T>
+    struct CustomAccessed
     {
-
-        // Make parent members visible to the compiler.
-        using CustomAccessedBase<T>::BackingValue;
 
     public:
 
@@ -41,19 +38,9 @@ namespace CppUtils
             AccessorPolicy::Set(BackingValue, newValue);
         }
 
-#if 0 // Adds unnecesary complexity at this stage in development. We can decide on this later when development is finished.
-
-        T& operator=(const T& newBackingValue)
-        {
-            CustomSetterFunc(newBackingValue);
-        }
-
-        // Implements implicit conversion from this struct to BackingValue's type. Allows you to treat this struct as its BackingValue's type in code.
-        operator T() const
-        {
-            return GetValue();
-        }
-#endif
+    protected:
+    
+        T BackingValue = T{};
 
     };
 }
