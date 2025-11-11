@@ -2,8 +2,12 @@
 
 #pragma once
 
-// Accessor policies are used to define custom accessor behavior.
-// TODO: We need to support accessors that user other value categories and cv.
+#include <utility>
+
+/*
+* Accessor policies are used to define custom accessor behavior (e.g. getters/setters).
+* TODO: We need to support accessors that user other value categories and cv.
+*/
 namespace CppUtils::CommonAccessorPolicies
 {
     template <class T>
@@ -19,27 +23,42 @@ namespace CppUtils::CommonAccessorPolicies
     using TSetterFuncPtr = void (*)(T& value, const T& newValue);
 
     /*
-    * Pourpose of this policy is to allow for externalization of behavior when creating an accessor policy.
-    * The policy is simply generated with the func ptrs to forward its call to. Cleaner api for user to work with.
+    * Purpose of this accessor policy is to remove the need to manualy write accessor policy structs. It does this by allowing the externalization of policy function definitions.
+    * The policy functions simply forwards execution to optional user functions, essentially overriding default behaviors.
+    * User functions are specified via builder functions through function chaining. This way, "argument" order is up to the user and there are no forced argument situations.
     * 
-    * TODO: Solve required order for function ptrs.
+    * Most (if not all) custom accessor policies can be generated using this, but custom accessor policies can always be manually written if that control is needed.
     */
-    template <
-        class T,
-        TGetterFuncPtr<T> GetterFuncPtr = &CppUtils::CommonAccessorPolicies::BasicGetter<T>,
-        TSetterFuncPtr<T> SetterFuncPtr = &CppUtils::CommonAccessorPolicies::BasicSetter<T>
-    >
+    template <class T>
     struct GenericAccessorPolicy
     {
-        // Guarentee compile-time instantiation by only providing consteval construct.
+        // We explicitly declare the special member functions to mark them consteval to guarentee compile-time only lifetime.
         consteval GenericAccessorPolicy() = default;
-        GenericAccessorPolicy(const GenericAccessorPolicy&) = delete;
-        GenericAccessorPolicy(GenericAccessorPolicy&&) noexcept = delete;
-        GenericAccessorPolicy& operator=(const GenericAccessorPolicy&) = delete;
-        GenericAccessorPolicy& operator=(GenericAccessorPolicy&&) noexcept = delete;
+        consteval GenericAccessorPolicy(const GenericAccessorPolicy&) = default;
+        consteval GenericAccessorPolicy(GenericAccessorPolicy&&) noexcept = default;
+        consteval GenericAccessorPolicy& operator=(const GenericAccessorPolicy&) = default;
+        consteval GenericAccessorPolicy& operator=(GenericAccessorPolicy&&) noexcept = default;
 
-        static inline const T& CallGetter(const T& value)              { return GetterFuncPtr(value); }
-        static inline void     CallSetter(T& value, const T& newValue) { SetterFuncPtr(value, newValue); }
+        // Builder functions.
+        consteval GenericAccessorPolicy<T>&& SetGetterFuncPtr(const TGetterFuncPtr<T> value) &&
+        {
+            GetterFuncPtr = value;
+            return std::move(*this);
+        }
+        consteval GenericAccessorPolicy<T>&& SetSetterFuncPtr(const TSetterFuncPtr<T> value) &&
+        {
+            SetterFuncPtr = value;
+            return std::move(*this);
+        }
+
+        // TODO: Consider removing callers, since the ptr members must stay public anyways.
+        // Callers.
+        inline const T& CallGetter(const T& value)              const { return GetterFuncPtr(value); }
+        inline void     CallSetter(T& value, const T& newValue) const { SetterFuncPtr(value, newValue); }
+
+        // Func ptr members.
+        TGetterFuncPtr<T> GetterFuncPtr = &BasicGetter<T>;
+        TSetterFuncPtr<T> SetterFuncPtr = &BasicSetter<T>;
     };
 
 }
