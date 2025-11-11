@@ -7,10 +7,10 @@
 namespace CppUtils::CommonAccessorPolicies
 {
     template <class T>
-    static inline const T& BasicGet(const T& value) { return value; }
+    static inline const T& BasicGetter(const T& value) { return value; }
 
     template <class T>
-    static inline void BasicSet(T& value, const T& newValue) { value = newValue; }
+    static inline void BasicSetter(T& value, const T& newValue) { value = newValue; }
 
     template <class T>
     using TGetterFuncPtr = const T& (*)(const T& value);
@@ -26,8 +26,8 @@ namespace CppUtils::CommonAccessorPolicies
     */
     template <
         class T,
-        TGetterFuncPtr<T> GetFuncPtr = &CppUtils::CommonAccessorPolicies::BasicGet<T>,
-        TSetterFuncPtr<T> SetFuncPtr = &CppUtils::CommonAccessorPolicies::BasicSet<T>
+        TGetterFuncPtr<T> GetterFuncPtr = &CppUtils::CommonAccessorPolicies::BasicGetter<T>,
+        TSetterFuncPtr<T> SetterFuncPtr = &CppUtils::CommonAccessorPolicies::BasicSetter<T>
     >
     struct GenericAccessorPolicy
     {
@@ -38,8 +38,8 @@ namespace CppUtils::CommonAccessorPolicies
         GenericAccessorPolicy& operator=(const GenericAccessorPolicy&) = delete;
         GenericAccessorPolicy& operator=(GenericAccessorPolicy&&) noexcept = delete;
 
-        static inline const T& Get(const T& value) { return GetFuncPtr(value); }
-        static inline void Set(T& value, const T& newValue) { SetFuncPtr(value, newValue); }
+        static inline const T& CallGetter(const T& value)              { return GetterFuncPtr(value); }
+        static inline void     CallSetter(T& value, const T& newValue) { SetterFuncPtr(value, newValue); }
     };
 
 }
