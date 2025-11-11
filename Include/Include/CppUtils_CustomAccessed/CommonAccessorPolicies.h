@@ -31,6 +31,13 @@ namespace CppUtils::CommonAccessorPolicies
     >
     struct GenericAccessorPolicy
     {
+        // Guarentee compile-time instantiation by only providing consteval construct.
+        consteval GenericAccessorPolicy() = default;
+        GenericAccessorPolicy(const GenericAccessorPolicy&) = delete;
+        GenericAccessorPolicy(GenericAccessorPolicy&&) noexcept = delete;
+        GenericAccessorPolicy& operator=(const GenericAccessorPolicy&) = delete;
+        GenericAccessorPolicy& operator=(GenericAccessorPolicy&&) noexcept = delete;
+
         static inline const T& Get(const T& value) { return GetFuncPtr(value); }
         static inline void Set(T& value, const T& newValue) { SetFuncPtr(value, newValue); }
     };
