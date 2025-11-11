@@ -14,7 +14,7 @@ namespace CppUtils
      */
     template <
         class T,
-        auto AccessorPolicy = CppUtils::CommonAccessorPolicies::GenericAccessorPolicy<T>()
+        auto AccessorPolicy = CppUtils::CommonAccessorPolicies::GenericAccessorPolicy<T>{}
     >
 #if 0 // TODO: We need to enforce it to be an accessor policy type, but first, we need to also create a concept defining what the type actually can be.
     requires decltype(AccessorPolicy) == IsAccessorPolicyConcept
@@ -48,7 +48,7 @@ namespace CppUtils
     protected:
     
         // TODO: Would be good to support no backing value instantiations for particular use cases.
-        T BackingValue = T{};
+        T BackingValue{};
 
     };
 }
