@@ -14,7 +14,7 @@ namespace CppUtils
      */
     template <
         class T,
-        class AccessorPolicy = CppUtils::CommonAccessorPolicies::DefaultAccessorPolicy<T>
+        class AccessorPolicy = CppUtils::CommonAccessorPolicies::GenericAccessorPolicy<T>
     >
     struct CustomAccessed
     {

@@ -4,7 +4,15 @@
 
 int main(int argc, char** argv)
 {
-    CppUtils::CustomAccessed<int> myCustomAccessedInt(5);
+    CppUtils::CustomAccessed
+        <
+        int,
+        CppUtils::CommonAccessorPolicies::GenericAccessorPolicy
+            <
+                int, [](const int& value) -> const int& { return value; }
+            >
+        >
+    myCustomAccessedInt(5);
 
     const int currentValue = myCustomAccessedInt.GetValue();
     myCustomAccessedInt.SetValue(currentValue + 1);
