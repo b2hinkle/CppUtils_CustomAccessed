@@ -37,12 +37,12 @@ namespace CppUtils
         //       part of their calculation.
         const T& GetValue() const
         {
-            return AccessorPolicy.CallGetter(BackingValue);
+            return AccessorPolicy.GetterFuncPtr(BackingValue);
         }
 
         void SetValue(const T& newValue)
         {
-            AccessorPolicy.CallSetter(BackingValue, newValue);
+            AccessorPolicy.SetterFuncPtr(BackingValue, newValue);
         }
 
     protected:

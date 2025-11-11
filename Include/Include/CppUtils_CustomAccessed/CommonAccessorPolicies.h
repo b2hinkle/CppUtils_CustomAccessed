@@ -51,11 +51,6 @@ namespace CppUtils::CommonAccessorPolicies
             return std::move(*this);
         }
 
-        // TODO: Consider removing callers, since the ptr members must stay public anyways.
-        // Callers.
-        inline const T& CallGetter(const T& value)              const { return GetterFuncPtr(value); }
-        inline void     CallSetter(T& value, const T& newValue) const { SetterFuncPtr(value, newValue); }
-
         // Func ptr members.
         TGetterFuncPtr<T> GetterFuncPtr = &BasicGetter<T>;
         TSetterFuncPtr<T> SetterFuncPtr = &BasicSetter<T>;
