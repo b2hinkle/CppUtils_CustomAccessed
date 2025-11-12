@@ -5,11 +5,11 @@ cmake_minimum_required(VERSION 4.0)
 # Write out the main project name here, in one place, to make renaming easier. This is mainly used by our
 # boilerplate code. There may be other mentions of the project's name mixed in certain places of this file, so
 # don't rely on these variables alone for renaming.
-SET(MY_BASE_PROJECT_NAME_FULL "CppUtils_CustomAccessed")
+SET(MY_BASE_PROJECT_NAME_FULL "CppUtils_CustomAccess")
 string(TOLOWER ${MY_BASE_PROJECT_NAME_FULL} MY_BASE_PROJECT_NAME_FULL_LOWERCASE)
 string(TOUPPER ${MY_BASE_PROJECT_NAME_FULL} MY_BASE_PROJECT_NAME_FULL_UPPERCASE)
 SET(MY_BASE_PROJECT_NAME_NAMESPACE "CppUtils")
-SET(MY_BASE_PROJECT_NAME_LEAFNAME "CustomAccessed")
+SET(MY_BASE_PROJECT_NAME_LEAFNAME "CustomAccess")
 
 project(${MY_BASE_PROJECT_NAME_FULL}_Include
   VERSION 0.1.0
@@ -87,10 +87,11 @@ target_sources(${MY_BASE_PROJECT_NAME_FULL}_Include
       FILES
         "${CMAKE_CURRENT_SOURCE_DIR}/Include/${MY_BASE_PROJECT_NAME_FULL}_Export.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/Include/${MY_BASE_PROJECT_NAME_FULL}_include_export.h"
-        "${CMAKE_CURRENT_SOURCE_DIR}/Include/CppUtils_CustomAccessed/CustomAccessedBase.h"
-        "${CMAKE_CURRENT_SOURCE_DIR}/Include/CppUtils_CustomAccessed/CustomAccessed.h"
-        "${CMAKE_CURRENT_SOURCE_DIR}/Include/CppUtils_CustomAccessed/CommonAccessorPolicies.h"
-        "${CMAKE_CURRENT_SOURCE_DIR}/Include/CppUtils_CustomAccessed/FindAccessorPolicy.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Include/CppUtils_CustomAccess/CustomAccessedBase.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Include/CppUtils_CustomAccess/CustomAccessed.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Include/CppUtils_CustomAccess/AccessorPolicies.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Include/CppUtils_CustomAccess/FindAccessorPolicy.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Include/CppUtils_CustomAccess/UnifiedAccessPolicy.h"
   )
 
 # Note that we do not "find package" for our parent project. We don't need to since we are built in the same

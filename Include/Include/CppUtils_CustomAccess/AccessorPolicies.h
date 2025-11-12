@@ -8,7 +8,7 @@
 * Accessor policies are used to define custom accessor behavior (e.g. getters/setters).
 * TODO: We need to support accessors that user other value categories and cv.
 */
-namespace CppUtils::CommonAccessorPolicies
+namespace CppUtils::AccessorPolicies
 {
     template <class T>
     static inline const T& BasicGetter(const T& value) { return value; }
@@ -36,7 +36,7 @@ namespace CppUtils::CommonAccessorPolicies
     */
     template <
         class T,
-        TGetterFuncPtr<T> GetterFuncPtr = &CppUtils::CommonAccessorPolicies::BasicGetter<T>
+        TGetterFuncPtr<T> GetterFuncPtr = &CppUtils::AccessorPolicies::BasicGetter<T>
         >
     struct GenericGetterAccessorPolicy : GetterAccessorPolicy<T, GenericGetterAccessorPolicy<T, GetterFuncPtr>>
     {
@@ -57,7 +57,7 @@ namespace CppUtils::CommonAccessorPolicies
     */
     template <
         class T,
-        TSetterFuncPtr<T> SetterFuncPtr = &CppUtils::CommonAccessorPolicies::BasicSetter<T>
+        TSetterFuncPtr<T> SetterFuncPtr = &CppUtils::AccessorPolicies::BasicSetter<T>
         >
     struct GenericSetterAccessorPolicy : SetterAccessorPolicy<T, GenericSetterAccessorPolicy<T, SetterFuncPtr>>
     {

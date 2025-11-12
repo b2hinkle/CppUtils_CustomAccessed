@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include <CppUtils_CustomAccessed/CommonAccessorPolicies.h>
+#include <CppUtils_CustomAccess/AccessorPolicies.h>
 
-namespace CppUtils::AccessorPolicyUtils::Detail
+namespace CppUtils::CustomAccess::AccessorPolicyUtils::Detail
 {
     template <
         class T,
@@ -43,7 +43,7 @@ namespace CppUtils::AccessorPolicyUtils::Detail
     };
 }
 
-namespace CppUtils::AccessorPolicyUtils
+namespace CppUtils::CustomAccess::AccessorPolicyUtils
 {
     template <
         class T,

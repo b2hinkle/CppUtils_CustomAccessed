@@ -14,59 +14,59 @@
     ],
     "testPresets": [
         {
-            "name": "cpputils-customaccessed-base",
+            "name": "cpputils-customaccess-base",
             "hidden": true,
             "filter": {
                 "include": {
-                    "name": "CppUtils.CustomAccessed."
+                    "name": "CppUtils.CustomAccess."
                 }
             }
         },
         {
-            "name": "cpputils-customaccessed-win-debug",
-            "displayName": "CppUtils.CustomAccessed - Windows Debug",
+            "name": "cpputils-customaccess-win-debug",
+            "displayName": "CppUtils.CustomAccess - Windows Debug",
             "inherits": [
-                "cpputils-customaccessed-base",
+                "cpputils-customaccess-base",
                 "win-debug"
             ]
         },
         {
-            "name": "cpputils-customaccessed-win-release",
-            "displayName": "CppUtils.CustomAccessed - Windows Release",
+            "name": "cpputils-customaccess-win-release",
+            "displayName": "CppUtils.CustomAccess - Windows Release",
             "inherits": [
-                "cpputils-customaccessed-base",
+                "cpputils-customaccess-base",
                 "win-release"
             ]
         },
         {
-            "name": "cpputils-customaccessed-linux-debug",
-            "displayName": "CppUtils.CustomAccessed - Linux Debug",
+            "name": "cpputils-customaccess-linux-debug",
+            "displayName": "CppUtils.CustomAccess - Linux Debug",
             "inherits": [
-                "cpputils-customaccessed-base",
+                "cpputils-customaccess-base",
                 "linux-debug"
             ]
         },
         {
-            "name": "cpputils-customaccessed-linux-release",
-            "displayName": "CppUtils.CustomAccessed - Linux Release",
+            "name": "cpputils-customaccess-linux-release",
+            "displayName": "CppUtils.CustomAccess - Linux Release",
             "inherits": [
-                "cpputils-customaccessed-base",
+                "cpputils-customaccess-base",
                 "linux-release"
             ]
         },
         {
-            "name": "cpputils-customaccessed-macos-debug",
-            "displayName": "CppUtils.CustomAccessed - macOS Debug",
+            "name": "cpputils-customaccess-macos-debug",
+            "displayName": "CppUtils.CustomAccess - macOS Debug",
             "inherits": [
-                "cpputils-customaccessed-base",
+                "cpputils-customaccess-base",
                 "macos-debug"
             ]
         },
         {
-            "name": "cpputils-customaccessed-macos-release",
-            "displayName": "CppUtils.CustomAccessed - macOS Release",
+            "name": "cpputils-customaccess-macos-release",
+            "displayName": "CppUtils.CustomAccess - macOS Release",
             "inherits": [
-                "cpputils-customaccessed-base",
+                "cpputils-customaccess-base",
                 "macos-release"
             ]
         }

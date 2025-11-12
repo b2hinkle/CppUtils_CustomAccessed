@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include <CppUtils_CustomAccessed/CustomAccessedBase.h>
-#include <CppUtils_CustomAccessed/CommonAccessorPolicies.h>
-#include <CppUtils_CustomAccessed/FindAccessorPolicy.h>
+#include <CppUtils_CustomAccess/CustomAccessedBase.h>
+#include <CppUtils_CustomAccess/AccessorPolicies.h>
+#include <CppUtils_CustomAccess/FindAccessorPolicy.h>
 
 
 namespace CppUtils
@@ -35,10 +35,10 @@ namespace CppUtils
         //       part of their calculation.
         const T& GetValue() const
         {
-            using foundAccessorPolicy = AccessorPolicyUtils::FindAccessPolicy_T<T, CppUtils::CommonAccessorPolicies::GetterAccessorPolicy, AccessorPolicies...>;
+            using foundAccessorPolicy = CppUtils::CustomAccess::AccessorPolicyUtils::FindAccessPolicy_T<T, CppUtils::AccessorPolicies::GetterAccessorPolicy, AccessorPolicies...>;
             if constexpr (std::is_same_v<foundAccessorPolicy, void>)
             {
-                return CppUtils::CommonAccessorPolicies::BasicGetter<T>(m_BackingValue);
+                return CppUtils::AccessorPolicies::BasicGetter<T>(m_BackingValue);
             }
             else
             {
@@ -48,10 +48,10 @@ namespace CppUtils
 
         void SetValue(const T& newValue)
         {
-            using foundAccessorPolicy = AccessorPolicyUtils::FindAccessPolicy_T<T, CppUtils::CommonAccessorPolicies::SetterAccessorPolicy, AccessorPolicies...>;
+            using foundAccessorPolicy = CppUtils::CustomAccess::AccessorPolicyUtils::FindAccessPolicy_T<T, CppUtils::AccessorPolicies::SetterAccessorPolicy, AccessorPolicies...>;
             if constexpr (std::is_same_v<foundAccessorPolicy, void>)
             {
-                return CppUtils::CommonAccessorPolicies::BasicSetter<T>(m_BackingValue, newValue);
+                return CppUtils::AccessorPolicies::BasicSetter<T>(m_BackingValue, newValue);
             }
             else
             {

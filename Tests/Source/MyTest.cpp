@@ -1,11 +1,11 @@
 // Copyright (c) 2023-2025 Christian Hinkle, Brian Hinkle.
 
-#include <CppUtils_CustomAccessed/CustomAccessed.h>
+#include <CppUtils_CustomAccess/CustomAccessed.h>
 
 int main(int argc, char** argv)
 {
 #if 0 // TODO: Consider if we want this kind of workflow and how we might support it if so.
-    constexpr CppUtils::CommonAccessorPolicies::GenericAccessorPolicy<int> myGenericAccessPol{};
+    constexpr CppUtils::AccessorPolicies::GenericAccessorPolicy<int> myGenericAccessPol{};
     myGenericAccessPol.Get = [](const int& value) -> const int&  { return value; };
     myGenericAccessPol.Set = [](int& value, const int& newValue) { value = 85; };
 #endif
@@ -13,8 +13,8 @@ int main(int argc, char** argv)
     CppUtils::CustomAccessed
         <
             int,
-            CppUtils::CommonAccessorPolicies::GenericSetterAccessorPolicy<int, [](int& value, const int& newValue) { value = 85; }>,
-            CppUtils::CommonAccessorPolicies::GenericGetterAccessorPolicy<int, [](const int& value) -> const int&  { return value + 1; }>
+            CppUtils::AccessorPolicies::GenericSetterAccessorPolicy<int, [](int& value, const int& newValue) { value = 85; }>,
+            CppUtils::AccessorPolicies::GenericGetterAccessorPolicy<int, [](const int& value) -> const int&  { return value + 1; }>
         >
     myCustomAccessedInt(5);
 

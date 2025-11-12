@@ -5,11 +5,11 @@ cmake_minimum_required(VERSION 4.0)
 # Write out the main project name here, in one place, to make renaming easier. This is mainly used by our
 # boilerplate code. There may be other mentions of the project's name mixed in certain places of this file, so
 # don't rely on these variables alone for renaming.
-SET(MY_BASE_PROJECT_NAME_FULL "CppUtils_CustomAccessed")
+SET(MY_BASE_PROJECT_NAME_FULL "CppUtils_CustomAccess")
 string(TOLOWER ${MY_BASE_PROJECT_NAME_FULL} MY_BASE_PROJECT_NAME_FULL_LOWERCASE)
 string(TOUPPER ${MY_BASE_PROJECT_NAME_FULL} MY_BASE_PROJECT_NAME_FULL_UPPERCASE)
 SET(MY_BASE_PROJECT_NAME_NAMESPACE "CppUtils")
-SET(MY_BASE_PROJECT_NAME_LEAFNAME "CustomAccessed")
+SET(MY_BASE_PROJECT_NAME_LEAFNAME "CustomAccess")
 
 project(${MY_BASE_PROJECT_NAME_FULL}_Source
   VERSION 0.1.0
@@ -98,10 +98,11 @@ block(SCOPE_FOR VARIABLES)
   # List of all source files (relative to our "Source" directory).
   set(MyTargetSources
     "${MY_BASE_PROJECT_NAME_FULL}_Export.cpp"
-    "CppUtils_CustomAccessed/CustomAccessedBase.cpp"
-    "CppUtils_CustomAccessed/CustomAccessed.cpp"
-    "CppUtils_CustomAccessed/CommonAccessorPolicies.cpp"
-    "CppUtils_CustomAccessed/FindAccessorPolicy.cpp"
+    "CppUtils_CustomAccess/CustomAccessedBase.cpp"
+    "CppUtils_CustomAccess/CustomAccessed.cpp"
+    "CppUtils_CustomAccess/AccessorPolicies.cpp"
+    "CppUtils_CustomAccess/FindAccessorPolicy.cpp"
+    "CppUtils_CustomAccess/UnifiedAccessPolicy.cpp"
     )
 
   # Add source file paths for `BUILD_LOCAL_INTERFACE` users.
