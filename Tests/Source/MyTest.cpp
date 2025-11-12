@@ -4,12 +4,6 @@
 
 int main(int argc, char** argv)
 {
-#if 0 // TODO: Consider if we want this kind of workflow and how we might support it if so.
-    constexpr CppUtils::AccessorPolicies::GenericAccessorPolicy<int> myGenericAccessPol{};
-    myGenericAccessPol.Get = [](const int& value) -> const int&  { return value; };
-    myGenericAccessPol.Set = [](int& value, const int& newValue) { value = 85; };
-#endif
-
     CppUtils::CustomAccessed
         <
             int,
