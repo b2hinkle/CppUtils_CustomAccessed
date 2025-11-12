@@ -102,7 +102,7 @@ block(SCOPE_FOR VARIABLES)
     "CppUtils_CustomAccess/CustomAccessed.cpp"
     "CppUtils_CustomAccess/AccessorPolicies.cpp"
     "CppUtils_CustomAccess/FindAccessorPolicy.cpp"
-    "CppUtils_CustomAccess/UnifiedAccessPolicy.cpp"
+    "CppUtils_CustomAccess/UnifiedAccessorPolicy.cpp"
     "CppUtils_CustomAccess/AccessorPolicyInterfaces.cpp"
     )
 

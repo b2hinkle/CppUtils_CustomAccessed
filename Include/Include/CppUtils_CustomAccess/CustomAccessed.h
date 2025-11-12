@@ -29,7 +29,7 @@ namespace CppUtils
             template <class, class>
             class TPolicyInterface
         >
-        using GetAccessorPolicyByInterface = CppUtils::CustomAccess::AccessorPolicyUtils::FindAccessPolicyWithFallback_T
+        using GetAccessorPolicyByInterface = CppUtils::CustomAccess::AccessorPolicyUtils::FindAccessorPolicyWithFallback_T
             <
             T,
             TPolicyInterface,                                                                                // To find.
