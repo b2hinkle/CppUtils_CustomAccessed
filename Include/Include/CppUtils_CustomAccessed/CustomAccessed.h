@@ -4,53 +4,11 @@
 
 #include <CppUtils_CustomAccessed/CustomAccessedBase.h>
 #include <CppUtils_CustomAccessed/CommonAccessorPolicies.h>
+#include <CppUtils_CustomAccessed/FindAccessorPolicy.h>
 
 
 namespace CppUtils
 {
-    template <
-        class T,
-        template <class, class>
-        class PolicyToFind,
-        class... Policies>
-    struct FindAccessPolicy;
-
-    template <
-        class T,
-        template <class, class>
-        class PolicyToFind,
-        class First,
-        class... Rest>
-    struct FindAccessPolicy<T, PolicyToFind, First, Rest...>
-    {
-        using type = std::conditional_t
-        <
-            std::is_base_of_v
-            <
-                PolicyToFind<T, First>,
-                First
-            >,
-            First,
-            typename FindAccessPolicy<T, PolicyToFind, Rest...>::type
-        >;
-    };
-
-    template <
-        class T,
-        template <class, class>
-        class PolicyToFind>
-    struct FindAccessPolicy<T, PolicyToFind>
-    {
-        using type = void; // No policy found
-    };
-    
-    template <
-        class T,
-        template <class, class>
-        class PolicyToFind,
-        class... AccessorPolicies>
-    using FindAccessPolicy_T = FindAccessPolicy<T, PolicyToFind, AccessorPolicies...>::type;
-
     /**
      * Property wrapper implementation.
      * User generates access behavior by providing policy classes as template arguments. Generic accessor policies are most common, as they simply forward execution to users' external function definitions. Default behavior exists where user doesn't specify behavior.
@@ -77,7 +35,7 @@ namespace CppUtils
         //       part of their calculation.
         const T& GetValue() const
         {
-            using foundAccessorPolicy = FindAccessPolicy_T<T, CppUtils::CommonAccessorPolicies::GetterAccessorPolicy, AccessorPolicies...>;
+            using foundAccessorPolicy = AccessorPolicyUtils::FindAccessPolicy_T<T, CppUtils::CommonAccessorPolicies::GetterAccessorPolicy, AccessorPolicies...>;
             if constexpr (std::is_same_v<foundAccessorPolicy, void>)
             {
                 return CppUtils::CommonAccessorPolicies::BasicGetter<T>(m_BackingValue);
@@ -90,7 +48,7 @@ namespace CppUtils
 
         void SetValue(const T& newValue)
         {
-            using foundAccessorPolicy = FindAccessPolicy_T<T, CppUtils::CommonAccessorPolicies::SetterAccessorPolicy, AccessorPolicies...>;
+            using foundAccessorPolicy = AccessorPolicyUtils::FindAccessPolicy_T<T, CppUtils::CommonAccessorPolicies::SetterAccessorPolicy, AccessorPolicies...>;
             if constexpr (std::is_same_v<foundAccessorPolicy, void>)
             {
                 return CppUtils::CommonAccessorPolicies::BasicSetter<T>(m_BackingValue, newValue);
