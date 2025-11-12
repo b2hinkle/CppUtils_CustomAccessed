@@ -103,6 +103,7 @@ block(SCOPE_FOR VARIABLES)
     "CppUtils_CustomAccess/AccessorPolicies.cpp"
     "CppUtils_CustomAccess/FindAccessorPolicy.cpp"
     "CppUtils_CustomAccess/UnifiedAccessPolicy.cpp"
+    "CppUtils_CustomAccess/AccessorPolicyInterfaces.cpp"
     )
 
   # Add source file paths for `BUILD_LOCAL_INTERFACE` users.
