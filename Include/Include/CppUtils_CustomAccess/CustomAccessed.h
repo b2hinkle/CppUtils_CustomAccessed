@@ -45,6 +45,13 @@ namespace CppUtils
         {
             SetValue(defaultValue);
         }
+
+#if 0
+        static consteval bool IsRefReturn
+        {
+            return std::is_reference_v<GetReturnType_T<GetAccessorPolicyByInterface<CppUtils::AccessorPolicies::GetterAccessorPolicy_Interface>::Get>>;
+        }
+#endif
         
         // TODO: We definately need to support other return types in terms of ref vs copy (maybe even cv but not as pressing).
         //       There are many potential use cases where user wants to return an r value, essentially by using the backing value as
