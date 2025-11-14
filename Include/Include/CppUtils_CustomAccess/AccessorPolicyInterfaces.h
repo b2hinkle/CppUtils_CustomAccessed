@@ -13,30 +13,38 @@ namespace CppUtils::AccessorPolicies
         template <class, class> // NOTE: Will this still be valid if we require a new policy with more template parameters?
         class TPolicyInterface
     >
-    struct PolicyInterfaceTraits
+    struct PolicyCategoryTraits
     {
         // Write the condition to be dependent on a template parameter, to avoid the static assertion being evaluated during the parsing phase of this template struct.
-        static_assert(false && sizeof(T), "No traits defined. You must define a (partial) specialization of this struct for your policy interface class.");
+        static_assert(false && sizeof(T), "No traits defined. You must define a (partial) specialization of this struct for your policy category class.");
+    };
+
+    template <class Policy>
+    struct PolicyTraits
+    {
+        static_assert(false && sizeof(Policy), "No policy category defined. You must define a (partial) specialization of this struct for your policy class. This way you can assign a policy category to your policy, allowing us to search for you.");
     };
 }
 
 namespace CppUtils::AccessorPolicies
 {
-    template <
+    template
+    <
         class T,
-        class TDerived
+        class Policy
     >
-    struct GetterAccessorPolicy_Interface
+    struct PolicyCategory_Getter
     {
-        static inline const T& Get(const T& value) { return TDerived::Get(value); }
+        static_assert(std::is_invocable_v<decltype(Policy::Get), T>, "The policy class is missing this function.");
     };
 
-    template <
+    template
+    <
         class T,
-        class TDerived
+        class Policy
     >
-    struct SetterAccessorPolicy_Interface
+    struct PolicyCategory_Setter
     {
-        static inline void Set(T& value, const T& newValue) { return TDerived::Set(value); }
+        static_assert(std::is_invocable_v<decltype(Policy::Set), T, T>, "The policy class is missing this function.");
     };
 }

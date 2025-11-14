@@ -21,15 +21,21 @@ namespace CppUtils::AccessorPolicies
     * Basic getter behavior, used as default behavior.
     */
     template <class T>
-    struct BasicGetterAccessorPolicy : GetterAccessorPolicy_Interface<T, BasicGetterAccessorPolicy<T>>
+    struct BasicGetterAccessorPolicy
     {
         static inline const T& Get(const T& value) { return value; }
     };
 
     template <class T>
-    struct PolicyInterfaceTraits<T, GetterAccessorPolicy_Interface>
+    struct PolicyCategoryTraits<T, PolicyCategory_Getter>
     {
         using FallbackPolicy = BasicGetterAccessorPolicy<T>;
+    };
+
+    template <class T>
+    struct PolicyTraits<BasicGetterAccessorPolicy<T>>
+    {
+        using PolicyCategory_t = PolicyCategory_Getter<T, BasicGetterAccessorPolicy<T>>;
     };
 
     /*
@@ -39,24 +45,40 @@ namespace CppUtils::AccessorPolicies
         class T,
         TGetterFuncPtr<T> GetterFuncPtr
         >
-    struct GenericGetterAccessorPolicy : GetterAccessorPolicy_Interface<T, GenericGetterAccessorPolicy<T, GetterFuncPtr>>
+    struct GenericGetterAccessorPolicy
     {
         static inline const T& Get(const T& value) { return GetterFuncPtr(value); }
+    };
+
+    template
+    <
+        class T,
+        TGetterFuncPtr<T> GetterFuncPtr
+    >
+    struct PolicyTraits<GenericGetterAccessorPolicy<T, GetterFuncPtr>>
+    {
+        using PolicyCategory_t = PolicyCategory_Getter<T, GenericGetterAccessorPolicy<T, GetterFuncPtr>>;
     };
 
     /*
     * Basic setter behavior, used as default behavior.
     */
     template <class T>
-    struct BasicSetterAccessorPolicy : SetterAccessorPolicy_Interface<T, BasicSetterAccessorPolicy<T>>
+    struct BasicSetterAccessorPolicy
     {
         static inline void Set(T& value, const T& newValue) { value = newValue; }
     };
 
     template <class T>
-    struct PolicyInterfaceTraits<T, SetterAccessorPolicy_Interface>
+    struct PolicyCategoryTraits<T, PolicyCategory_Setter>
     {
         using FallbackPolicy = BasicSetterAccessorPolicy<T>;
+    };
+
+    template <class T>
+    struct PolicyTraits<BasicSetterAccessorPolicy<T>>
+    {
+        using PolicyCategory_t = PolicyCategory_Setter<T, BasicSetterAccessorPolicy<T>>;
     };
 
     /*
@@ -66,11 +88,20 @@ namespace CppUtils::AccessorPolicies
         class T,
         TSetterFuncPtr<T> SetterFuncPtr
         >
-    struct GenericSetterAccessorPolicy : SetterAccessorPolicy_Interface<T, GenericSetterAccessorPolicy<T, SetterFuncPtr>>
+    struct GenericSetterAccessorPolicy
     {
         static inline void Set(T& value, const T& newValue) { SetterFuncPtr(value, newValue); }
     };
 
+    template
+    <
+        class T,
+        TSetterFuncPtr<T> SetterFuncPtr
+    >
+    struct PolicyTraits<GenericSetterAccessorPolicy<T, SetterFuncPtr>>
+    {
+        using PolicyCategory_t = PolicyCategory_Setter<T, GenericSetterAccessorPolicy<T, SetterFuncPtr>>;
+    };
 }
 
 

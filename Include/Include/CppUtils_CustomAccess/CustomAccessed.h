@@ -27,13 +27,13 @@ namespace CppUtils
         template
         <
             template <class, class>
-            class TPolicyInterface
+            class TPolicyCategory
         >
-        using GetAccessorPolicyByInterface = CppUtils::CustomAccess::AccessorPolicyUtils::FindAccessorPolicyWithFallback_T
+        using GetAccessorPolicyByCategory = CppUtils::CustomAccess::AccessorPolicyUtils::FindAccessorPolicyWithFallback_T
             <
             T,
-            TPolicyInterface,                                                                                // To find.
-            typename CppUtils::AccessorPolicies::PolicyInterfaceTraits<T, TPolicyInterface>::FallbackPolicy, // Fallback.
+            TPolicyCategory,                                                                                // To find.
+            typename CppUtils::AccessorPolicies::PolicyCategoryTraits<T, TPolicyCategory>::FallbackPolicy, // Fallback.
             AccessorPolicies...                                                                              // Our policies.
             >;
 
@@ -49,7 +49,7 @@ namespace CppUtils
 #if 0
         static consteval bool IsRefReturn
         {
-            return std::is_reference_v<GetReturnType_T<GetAccessorPolicyByInterface<CppUtils::AccessorPolicies::GetterAccessorPolicy_Interface>::Get>>;
+            return std::is_reference_v<GetReturnType_T<GetAccessorPolicyByCategory<CppUtils::AccessorPolicies::GetterAccessorPolicy_Interface>::Get>>;
         }
 #endif
         
@@ -58,12 +58,12 @@ namespace CppUtils
         //       part of their calculation.
         const T& GetValue() const
         {
-            return GetAccessorPolicyByInterface<CppUtils::AccessorPolicies::GetterAccessorPolicy_Interface>::Get(m_BackingValue);
+            return GetAccessorPolicyByCategory<CppUtils::AccessorPolicies::PolicyCategory_Getter>::Get(m_BackingValue);
         }
 
         void SetValue(const T& newValue)
         {
-            GetAccessorPolicyByInterface<CppUtils::AccessorPolicies::SetterAccessorPolicy_Interface>::Set(m_BackingValue, newValue);
+            GetAccessorPolicyByCategory<CppUtils::AccessorPolicies::PolicyCategory_Setter>::Set(m_BackingValue, newValue);
         }
 
     protected:

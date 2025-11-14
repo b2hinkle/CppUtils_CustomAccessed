@@ -6,10 +6,20 @@
 
 namespace CppUtils::CustomAccess::AccessorPolicyUtils::Detail
 {
+    template <class Policy>
+    using GetPolicyCategoryType_t = CppUtils::AccessorPolicies::PolicyTraits<Policy>::PolicyCategory_t;
+
+    template
+    <
+        class Policy,
+        class PolicyCategory
+    >
+    consteval bool IsPolicyOfPolicyCategory() { return std::is_same_v<GetPolicyCategoryType_t<Policy>, PolicyCategory>; }
+
     template <
         class T,
         template <class, class>
-        class PolicyToFind,
+        class PolicyCategory,
         class FallbackPolicy,
         class... Policies>
     struct FindAccessorPolicy;
@@ -17,30 +27,26 @@ namespace CppUtils::CustomAccess::AccessorPolicyUtils::Detail
     template <
         class T,
         template <class, class>
-        class PolicyToFind,
+        class PolicyCategory,
         class FallbackPolicy,
         class First,
         class... Rest>
-    struct FindAccessorPolicy<T, PolicyToFind, FallbackPolicy, First, Rest...>
+    struct FindAccessorPolicy<T, PolicyCategory, FallbackPolicy, First, Rest...>
     {
         using type = std::conditional_t
         <
-            std::is_base_of_v
-            <
-                PolicyToFind<T, First>,
-                First
-            >,
+            IsPolicyOfPolicyCategory<First, PolicyCategory<T, First>>(),
             First,
-            typename FindAccessorPolicy<T, PolicyToFind, FallbackPolicy, Rest...>::type
+            typename FindAccessorPolicy<T, PolicyCategory, FallbackPolicy, Rest...>::type
         >;
     };
 
     template <
         class T,
         template <class, class>
-        class PolicyToFind,
+        class PolicyCategory,
         class FallbackPolicy>
-    struct FindAccessorPolicy<T, PolicyToFind, FallbackPolicy>
+    struct FindAccessorPolicy<T, PolicyCategory, FallbackPolicy>
     {
         using type = FallbackPolicy; // No policy found
     };
@@ -49,23 +55,23 @@ namespace CppUtils::CustomAccess::AccessorPolicyUtils::Detail
 namespace CppUtils::CustomAccess::AccessorPolicyUtils
 {
     /*
-    * Finds the first accessor policy of type `PolicyToFind` in the provided `AccessorPolicies...`. Returns `FallbackPolicy` if no such policy is found.
+    * Finds the first accessor policy of type `PolicyCategory` in the provided `AccessorPolicies...`. Returns `FallbackPolicy` if no such policy is found.
     */
     template <
         class T,
         template <class, class>
-        class PolicyToFind,
+        class PolicyCategory,
         class    FallbackPolicy,
         class... AccessorPolicies>
-    using FindAccessorPolicyWithFallback_T = Detail::FindAccessorPolicy<T, PolicyToFind, FallbackPolicy, AccessorPolicies...>::type;
+    using FindAccessorPolicyWithFallback_T = Detail::FindAccessorPolicy<T, PolicyCategory, FallbackPolicy, AccessorPolicies...>::type;
 
     /*
-    * Finds the first accessor policy of type `PolicyToFind` in the provided `AccessorPolicies...`. Returns `void` if no such policy is found.
+    * Finds the first accessor policy by `PolicyCategory` in the provided `AccessorPolicies...`. Returns `void` if no such policy is found.
     */
     template <
         class T,
         template <class, class>
-        class PolicyToFind,
+        class PolicyCategory,
         class... AccessorPolicies>
-    using FindAccessorPolicy_T = FindAccessorPolicyWithFallback_T<T, PolicyToFind, void, AccessorPolicies...>::type;
+    using FindAccessorPolicy_T = FindAccessorPolicyWithFallback_T<T, PolicyCategory, void, AccessorPolicies...>::type;
 }
