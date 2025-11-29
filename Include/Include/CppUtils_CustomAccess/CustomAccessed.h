@@ -34,12 +34,12 @@ namespace CppUtils
             class TPolicyCategory
         >
         using GetAccessorPolicyByCategory = CppUtils::CustomAccess::AccessorPolicyUtils::FindAccessorPolicyWithFallback_T
-            <
+        <
             T,
             TPolicyCategory,                                                                               // To find.
             typename CppUtils::AccessorPolicies::PolicyCategoryTraits<T, TPolicyCategory>::FallbackPolicy, // Fallback.
             AccessorPolicies...                                                                            // Our policies.
-            >;
+        >;
 
         using GetterAccessPolicy = GetAccessorPolicyByCategory<CppUtils::AccessorPolicies::PolicyCategory_Getter>;
         using SetterAccessPolicy = GetAccessorPolicyByCategory<CppUtils::AccessorPolicies::PolicyCategory_Setter>;

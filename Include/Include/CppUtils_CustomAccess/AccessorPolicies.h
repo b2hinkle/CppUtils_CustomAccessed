@@ -140,10 +140,10 @@ namespace CppUtils::AccessorPolicies
     /*
     * Option for `Set` policy function definition externalization.
     */
-    template <
-        class T,
+    template
+    <
         auto SetterFuncPtr // TODO: We should make this variatic so user can define both copy and move. Only 2 possible args, but variatic for order agnostic.
-        >
+    >
     requires (TCallable<SetterFuncPtr> /* TODO: Use TSetterCallable when implemented */)
     struct GenericSetterAccessorPolicy
     {
@@ -154,6 +154,8 @@ namespace CppUtils::AccessorPolicies
         using FirstArg  = std::tuple_element_t<0, ArgsTuple>;
         using SecondArg = std::tuple_element_t<1, ArgsTuple>;
 
+        using FirstArgValueType = std::remove_cv_t<std::remove_reference_t<FirstArg>>;
+
         static consteval bool IsFirstArgValid()
         {
             return std::is_lvalue_reference_v<FirstArg> &&
@@ -162,7 +164,7 @@ namespace CppUtils::AccessorPolicies
 
         // Copy sets.
 
-        static inline void Set(T& value, const T& newValue)
+        static inline void Set(FirstArgValueType& value, const FirstArgValueType& newValue)
             requires
             (
                 IsFirstArgValid()                     &&
@@ -173,7 +175,7 @@ namespace CppUtils::AccessorPolicies
             SetterFuncPtr(value, newValue);
         }
 
-        static inline void Set(T& value, T newValue)
+        static inline void Set(FirstArgValueType& value, FirstArgValueType newValue)
             requires
             (
                 IsFirstArgValid()                    &&
@@ -185,7 +187,7 @@ namespace CppUtils::AccessorPolicies
         }
 
         // Move set.
-        static inline void Set(T& value, T&& newValue)
+        static inline void Set(FirstArgValueType& value, FirstArgValueType&& newValue)
             requires
             (
                 IsFirstArgValid()                     &&
@@ -202,9 +204,9 @@ namespace CppUtils::AccessorPolicies
         class T,
         auto SetterFuncPtr
     >
-    struct PolicyTraits<T, GenericSetterAccessorPolicy<T, SetterFuncPtr>>
+    struct PolicyTraits<T, GenericSetterAccessorPolicy<SetterFuncPtr>>
     {
-        using PolicyCategory_t = PolicyCategory_Setter<T, GenericSetterAccessorPolicy<T, SetterFuncPtr>>;
+        using PolicyCategory_t = PolicyCategory_Setter<T, GenericSetterAccessorPolicy<SetterFuncPtr>>;
     };
 }
 
