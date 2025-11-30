@@ -21,7 +21,7 @@ namespace CppUtils
      */
     template <
         class T,
-        class... AccessorPolicies
+        class... AccessorPolicies // TODO: CustomAccessed struct should enforce through static assert that all neccesary types of each policy are identical to its encapsulated type T.
     >
     struct CustomAccessed
     {
