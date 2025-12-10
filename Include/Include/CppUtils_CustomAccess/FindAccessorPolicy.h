@@ -4,7 +4,7 @@
 
 #include <CppUtils_CustomAccess/AccessorPolicies.h>
 
-namespace CppUtils::CustomAccess::AccessorPolicyUtils
+namespace CppUtils::AccessorPolicyUtils
 {
     template
     <
@@ -22,7 +22,7 @@ namespace CppUtils::CustomAccess::AccessorPolicyUtils
     consteval bool DoesAccessorPolicyBelongToAccessorPolicyStaticInterface() { return std::is_same_v<GetAccessorPolicyStaticInterface_t<T, AccessorPolicy>, AccessorPolicyStaticInterface>; }
 }
 
-namespace CppUtils::CustomAccess::AccessorPolicyUtils::Detail
+namespace CppUtils::AccessorPolicyUtils::Detail
 {
     template
     <
@@ -66,7 +66,7 @@ namespace CppUtils::CustomAccess::AccessorPolicyUtils::Detail
     };
 }
 
-namespace CppUtils::CustomAccess::AccessorPolicyUtils
+namespace CppUtils::AccessorPolicyUtils
 {
     /*
     * Finds the first accessor policy belonging to `AccessorPolicyStaticInterface` in the provided `AccessorPolicies...`. Returns `AccessorPolicyStaticInterface`'s `FallbackAccessorPolicy` if no such accessor policy is found.

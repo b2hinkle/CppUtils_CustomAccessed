@@ -26,14 +26,14 @@ namespace CppUtils
         
     public:
 
-        using BuiltAccessorPolicyStaticInterface_Getter = CppUtils::CustomAccess::AccessorPolicyUtils::BuildAccessorPolicyStaticInterface
+        using BuiltAccessorPolicyStaticInterface_Getter = CppUtils::AccessorPolicyUtils::BuildAccessorPolicyStaticInterface
          <
              T,
              CppUtils::AccessorPolicies::AccessorPolicyStaticInterface_Getter,
              AccessorPolicies...
          >;
 
-        using BuiltAccessorPolicyStaticInterface_Setter = CppUtils::CustomAccess::AccessorPolicyUtils::BuildAccessorPolicyStaticInterface
+        using BuiltAccessorPolicyStaticInterface_Setter = CppUtils::AccessorPolicyUtils::BuildAccessorPolicyStaticInterface
          <
              T,
              CppUtils::AccessorPolicies::AccessorPolicyStaticInterface_Setter,
