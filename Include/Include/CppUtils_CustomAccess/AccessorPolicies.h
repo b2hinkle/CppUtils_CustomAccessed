@@ -22,9 +22,9 @@ namespace CppUtils::AccessorPolicies
     >
     struct AccessorPolicy_GenericGetter
     {
-        static_assert(CppUtils::CustomAccess::TCallable<UserCallablePtr>, "We expect a user defined callable pointer as the non-type template argument.");
+        static_assert(CppUtils::TCallable<UserCallablePtr>, "We expect a user defined callable pointer as the non-type template argument.");
 
-        using UserCallablePtrTraits = CppUtils::CustomAccess::FunctionPointerTraits<decltype(UserCallablePtr)>;
+        using UserCallablePtrTraits = CppUtils::FunctionPointerTraits<decltype(UserCallablePtr)>;
         
         static_assert(std::tuple_size_v<typename UserCallablePtrTraits::ArgsTuple> == 1, "Callable must have 1 argument.");
 
@@ -62,9 +62,9 @@ namespace CppUtils::AccessorPolicies
     >
     struct AccessorPolicy_GenericSetter
     {
-        static_assert(CppUtils::CustomAccess::TCallable<UserCallablePtr>, "We expect a user defined callable pointer as the non-type template argument.");
+        static_assert(CppUtils::TCallable<UserCallablePtr>, "We expect a user defined callable pointer as the non-type template argument.");
 
-        using UserCallablePtrTraits = CppUtils::CustomAccess::FunctionPointerTraits<decltype(UserCallablePtr)>;
+        using UserCallablePtrTraits = CppUtils::FunctionPointerTraits<decltype(UserCallablePtr)>;
         
         static_assert(std::tuple_size_v<typename UserCallablePtrTraits::ArgsTuple> == 2, "Callable must have 2 arguments.");
 

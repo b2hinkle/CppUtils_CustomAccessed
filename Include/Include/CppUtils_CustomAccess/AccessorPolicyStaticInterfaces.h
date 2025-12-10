@@ -48,7 +48,7 @@ namespace CppUtils::AccessorPolicies
         static_assert(
             (!std::is_reference_v<FirstArg>)
             ||
-            (std::is_reference_v<FirstArg> && CppUtils::CustomAccess::IsConstAfterRemovingRef<FirstArg>()),
+            (std::is_reference_v<FirstArg> && CppUtils::IsConstAfterRemovingRef<FirstArg>()),
             "Reference as the first parameter is only allowed if its value type is made const, since the encapsulated data is provided as this first argument.");
 
         static_assert(
@@ -79,11 +79,11 @@ namespace CppUtils::AccessorPolicies
         using FirstArg  = typename AccessorPolicy::FirstArg;
         using SecondArg = typename AccessorPolicy::SecondArg;
 
-        static_assert(std::is_lvalue_reference_v<FirstArg> && !CppUtils::CustomAccess::IsConstAfterRemovingRef<FirstArg>(), "First parameter must be a non-const lvalue reference. Otherwise, the callback doesn't make sense.");
+        static_assert(std::is_lvalue_reference_v<FirstArg> && !CppUtils::IsConstAfterRemovingRef<FirstArg>(), "First parameter must be a non-const lvalue reference. Otherwise, the callback doesn't make sense.");
 
         static_assert // TODO: Test this
         (
-            (std::is_rvalue_reference_v<SecondArg> && !CppUtils::CustomAccess::IsConstAfterRemovingRef<SecondArg>())
+            (std::is_rvalue_reference_v<SecondArg> && !CppUtils::IsConstAfterRemovingRef<SecondArg>())
             ||
             !std::is_rvalue_reference_v<SecondArg>,
             "If using an rvalue reference as the second parameter, its value type should be non-const. Otherwise, the callback doesn't make sense."
@@ -91,7 +91,7 @@ namespace CppUtils::AccessorPolicies
 
         static_assert
         (
-            (std::is_lvalue_reference_v<SecondArg> && CppUtils::CustomAccess::IsConstAfterRemovingRef<SecondArg>())
+            (std::is_lvalue_reference_v<SecondArg> && CppUtils::IsConstAfterRemovingRef<SecondArg>())
             ||
             !std::is_lvalue_reference_v<SecondArg>,
             "If second parameter is an lvalue reference, its value type must be const. Otherwise, we can't guarantee that the setter argument won't be modified."

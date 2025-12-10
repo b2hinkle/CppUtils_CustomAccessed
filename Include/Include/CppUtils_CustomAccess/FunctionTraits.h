@@ -9,7 +9,7 @@
 * Specializations make use of inheritance to avoid dup code.
 * TODO: I want to move this to a more general library later.
 */
-namespace CppUtils::CustomAccess
+namespace CppUtils
 {
     // Primary template.
     template <class TFunc>

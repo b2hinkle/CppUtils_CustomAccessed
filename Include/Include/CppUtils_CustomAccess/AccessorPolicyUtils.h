@@ -5,7 +5,7 @@
 #include <type_traits>
 #include <CppUtils_CustomAccess/FunctionTraits.h>
 
-namespace CppUtils::CustomAccess
+namespace CppUtils
 {
     /*
     * A type which is callable.
