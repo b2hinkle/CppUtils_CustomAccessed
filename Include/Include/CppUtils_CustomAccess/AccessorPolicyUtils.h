@@ -3,9 +3,16 @@
 #pragma once
 
 #include <type_traits>
+#include <CppUtils_CustomAccess/FunctionTraits.h>
 
 namespace CppUtils::CustomAccess
 {
+    /*
+    * A type which is callable.
+    */
+    template <auto T>
+    concept TCallable = requires { typename FunctionPointerTraits<decltype(T)>; };
+
     template <class TFunction, class... TArgs>
     consteval bool IsRefReturnType()
     {

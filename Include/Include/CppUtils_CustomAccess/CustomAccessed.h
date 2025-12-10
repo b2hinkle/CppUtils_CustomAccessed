@@ -17,11 +17,10 @@ namespace CppUtils
 -    * User functions are specified via packed template type parameters. This way, "argument" order of policies is up to the user and there are no forced argument situations.
      * TODO: We should support all special member functions.
      * TODO: Provide a default value constructor, to support pr value sematics.
-     * TODO: The case of no user-defined get/set should not fallback on a default get/set implementation. The accessor should simply not exist if not defined.
      */
     template <
         class T,
-        class... AccessorPolicies // TODO: CustomAccessed struct should enforce through static assert that all neccesary types of each policy are identical to its encapsulated type T.
+        class... AccessorPolicies
     >
     struct CustomAccessed
     {
@@ -33,65 +32,50 @@ namespace CppUtils
             template <class, class>
             class TPolicyCategory
         >
-        using FindAccessorPolicyByCategory = CppUtils::CustomAccess::AccessorPolicyUtils::FindAccessorPolicyWithFallback_T
+        using GetAccessorPolicy = CppUtils::CustomAccess::AccessorPolicyUtils::GetAccessorPolicyByCategory_T
         <
             T,
             TPolicyCategory,    // To find.
-            void,               // Fallback.
             AccessorPolicies... // Our policies.
         >;
 
-        using UserGetterAccessorPolicy = FindAccessorPolicyByCategory<CppUtils::AccessorPolicies::PolicyCategory_Getter>;
-        using UserSetterAccessorPolicy = FindAccessorPolicyByCategory<CppUtils::AccessorPolicies::PolicyCategory_Setter>;
+        // TODO: Change from directly accessing the accessor policies to using the policy category, this way we operated based on an interface.
+        using GetterAccessorPolicy = GetAccessorPolicy<CppUtils::AccessorPolicies::PolicyCategory_Getter>;
+        using SetterAccessorPolicy = GetAccessorPolicy<CppUtils::AccessorPolicies::PolicyCategory_Setter>;
+
+
+
+        using GetterAccessorPolicyCategory = CppUtils::AccessorPolicies::PolicyCategory_Getter<T, GetterAccessorPolicy>; // TODO: We shoudl probably make this process not have to know about the exact policy.
+        using SetterAccessorPolicyCategory = CppUtils::AccessorPolicies::PolicyCategory_Setter<T, SetterAccessorPolicy>; // TODO: We shoudl probably make this process not have to know about the exact policy.
 
     public:
 
         CustomAccessed() = default;
 
-        // In the case of copy return value, cpp 17 prvalue semantics gives us guaranteed copy elision.
-        inline decltype(auto) GetValue() const
-            requires (!std::is_same_v<UserGetterAccessorPolicy, void>)
+        /*
+        * In the case of copy return value, cpp 17 prvalue semantics gives us guaranteed copy elision.
+        * Since we're able to avoid decltype(auto) return type, we do. This is because its deduction phase can trigger unnecessary errors when our policy isn't defined correctly.
+        */
+        inline GetterAccessorPolicyCategory::ReturnType GetValue() const
+            requires ( requires(T dummyBackingValue) { GetterAccessorPolicyCategory::Get(dummyBackingValue); } )
         {
-            return UserGetterAccessorPolicy::Get(m_BackingValue);
+            return GetterAccessorPolicyCategory::Get(m_BackingValue);
         }
 
-
-
-
-        inline void SetValue(const T& newValue)
-            requires
-            (
-                !std::is_same_v<UserSetterAccessorPolicy, void> &&
-                std::is_lvalue_reference_v           <typename UserSetterAccessorPolicy::SecondArg> &&
-                CustomAccess::IsConstAfterRemovingRef<typename UserSetterAccessorPolicy::SecondArg>()
-            )
+        inline void SetValue(SetterAccessorPolicyCategory::SecondArg newValue)
+            requires (requires(T dummyBackingValue, T dummyNewValue) { SetterAccessorPolicyCategory::Set(dummyBackingValue, dummyNewValue); } )
         {
-            UserSetterAccessorPolicy::Set(m_BackingValue, newValue);
+            if constexpr (std::is_rvalue_reference_v<typename SetterAccessorPolicyCategory::SecondArg>)
+            {
+                // Non-const rvalue reference. Non-const because that's already been asserted.
+                SetterAccessorPolicyCategory::Set(m_BackingValue, std::move(newValue));
+            }
+            else
+            {
+                // Either const lvalue reference or const/non-const copy.
+                SetterAccessorPolicyCategory::Set(m_BackingValue, newValue);
+            }
         }
-
-        inline void SetValue(T newValue)
-            requires
-            (
-                !std::is_same_v<UserSetterAccessorPolicy, void> &&
-                !std::is_reference_v<typename UserSetterAccessorPolicy::SecondArg> &&
-                !std::is_const_v    <typename UserSetterAccessorPolicy::SecondArg>
-            )
-        {
-            UserSetterAccessorPolicy::Set(m_BackingValue, newValue);
-        }
-
-        inline void SetValue(T&& newValue)
-            requires
-            (
-                !std::is_same_v<UserSetterAccessorPolicy, void> &&
-                std::is_rvalue_reference_v            <typename UserSetterAccessorPolicy::SecondArg> &&
-                !CustomAccess::IsConstAfterRemovingRef<typename UserSetterAccessorPolicy::SecondArg>()
-            )
-        {
-            UserSetterAccessorPolicy::Set(m_BackingValue, std::move(newValue));
-        }
-
-
 
 
     protected:

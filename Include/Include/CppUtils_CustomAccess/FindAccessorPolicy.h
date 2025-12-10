@@ -28,7 +28,6 @@ namespace CppUtils::CustomAccess::AccessorPolicyUtils::Detail
         class T,
         template <class, class>
         class PolicyCategory,
-        class FallbackPolicy,
         class... Policies>
     struct FindAccessorPolicy;
 
@@ -36,27 +35,25 @@ namespace CppUtils::CustomAccess::AccessorPolicyUtils::Detail
         class T,
         template <class, class>
         class PolicyCategory,
-        class FallbackPolicy,
         class First,
         class... Rest>
-    struct FindAccessorPolicy<T, PolicyCategory, FallbackPolicy, First, Rest...>
+    struct FindAccessorPolicy<T, PolicyCategory, First, Rest...>
     {
         using type = std::conditional_t
         <
             IsPolicyOfPolicyCategory<T, First, PolicyCategory<T, First>>(),
             First,
-            typename FindAccessorPolicy<T, PolicyCategory, FallbackPolicy, Rest...>::type
+            typename FindAccessorPolicy<T, PolicyCategory, Rest...>::type
         >;
     };
 
     template <
         class T,
         template <class, class>
-        class PolicyCategory,
-        class FallbackPolicy>
-    struct FindAccessorPolicy<T, PolicyCategory, FallbackPolicy>
+        class PolicyCategory>
+    struct FindAccessorPolicy<T, PolicyCategory>
     {
-        using type = FallbackPolicy; // No policy found
+        using type = CppUtils::AccessorPolicies::PolicyCategoryTraits<T, PolicyCategory>::FallbackPolicy; // No policy found
     };
 }
 
@@ -69,17 +66,6 @@ namespace CppUtils::CustomAccess::AccessorPolicyUtils
         class T,
         template <class, class>
         class PolicyCategory,
-        class    FallbackPolicy,
         class... AccessorPolicies>
-    using FindAccessorPolicyWithFallback_T = Detail::FindAccessorPolicy<T, PolicyCategory, FallbackPolicy, AccessorPolicies...>::type;
-
-    /*
-    * Finds the first accessor policy by `PolicyCategory` in the provided `AccessorPolicies...`. Returns `void` if no such policy is found.
-    */
-    template <
-        class T,
-        template <class, class>
-        class PolicyCategory,
-        class... AccessorPolicies>
-    using FindAccessorPolicy_T = FindAccessorPolicyWithFallback_T<T, PolicyCategory, void, AccessorPolicies...>::type;
+    using GetAccessorPolicyByCategory_T = Detail::FindAccessorPolicy<T, PolicyCategory, AccessorPolicies...>::type;
 }

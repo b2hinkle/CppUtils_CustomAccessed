@@ -30,19 +30,19 @@ int main(int argc, char** argv)
     CppUtils::CustomAccessed
         <
             int,
-            CppUtils::AccessorPolicies::GenericGetterAccessorPolicy<[](const int& value) -> int { return value; }>,
-            CppUtils::AccessorPolicies::GenericSetterAccessorPolicy<[](int& value, const int newValue) {value = newValue + 8;}>
+            CppUtils::AccessorPolicies::GenericGetterAccessorPolicy<[](const int& value) {return value + 8;}>,
+            CppUtils::AccessorPolicies::GenericSetterAccessorPolicy<[](int& value, const int& newValue) {value = newValue;}>
         >
     myCustomAccessedInt;
-
-    myCustomAccessedInt.SetValue(2);
+    myCustomAccessedInt.SetValue(10);
+    //myCustomAccessedInt.SetValue(2);
     const int currentValue = myCustomAccessedInt.GetValue();
 //
 //#if 0 // TODO: Add support for this kind of syntax.
 //    myCustomAccessedInt = myCustomAccessedInt + 1;
 //#endif
 
-    const bool isSuccess = myCustomAccessedInt.GetValue() == 10 /*true*/;
+    const bool isSuccess = myCustomAccessedInt.GetValue() == 18;
     return isSuccess
         ? 0
         : 1;
