@@ -102,6 +102,9 @@ namespace CppUtils
     };
 }
 
+/*
+* Convenience type aliases.
+*/
 namespace CppUtils
 {
     template <auto UserCallablePtr>
