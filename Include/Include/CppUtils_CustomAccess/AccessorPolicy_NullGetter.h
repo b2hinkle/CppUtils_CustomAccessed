@@ -2,7 +2,7 @@
 
 #pragma once
 
-namespace CppUtils::AccessorPolicies
+namespace CppUtils
 {
     /*
     * Dummy accessor policy to make compiler happy when parsing a getter function which won't be generated.

@@ -30,8 +30,8 @@ int main(int argc, char** argv)
     CppUtils::CustomAccessed
     <
         int,
-        CppUtils::AccessorPolicies::Get<[](const int& value) {return value + 8;}>,
-        CppUtils::AccessorPolicies::Set<[](int& value, const int& newValue) {value = newValue;}>
+        CppUtils::Get<[](const int& value) {return value + 8;}>,
+        CppUtils::Set<[](int& value, const int& newValue) {value = newValue;}>
     >
     myCustomAccessedInt;
     myCustomAccessedInt.SetValue(10);

@@ -6,7 +6,7 @@
 #include <CppUtils_CustomAccess/AccessorPolicy_NullGetter.h>
 #include <CppUtils_CustomAccess/AccessorPolicy_NullSetter.h>
 
-namespace CppUtils::AccessorPolicies
+namespace CppUtils
 {
     template
     <
@@ -33,7 +33,7 @@ namespace CppUtils::AccessorPolicies
     };
 }
 
-namespace CppUtils::AccessorPolicies
+namespace CppUtils
 {
     template 
     <

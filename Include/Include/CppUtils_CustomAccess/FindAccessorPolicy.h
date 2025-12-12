@@ -11,7 +11,7 @@ namespace CppUtils::AccessorPolicyUtils
         class T,
         class AccessorPolicy
     >
-    using GetAccessorPolicyStaticInterface_t = CppUtils::AccessorPolicies::AccessorPolicyTraits<T, AccessorPolicy>::AccessorPolicyStaticInterface_t;
+    using GetAccessorPolicyStaticInterface_t = AccessorPolicyTraits<T, AccessorPolicy>::AccessorPolicyStaticInterface_t;
     
     template
     <
@@ -62,7 +62,7 @@ namespace CppUtils::AccessorPolicyUtils::Detail
     >
     struct FindAccessorPolicy<T, AccessorPolicyStaticInterface>
     {
-        using AccessorPolicy = CppUtils::AccessorPolicies::AccessorPolicyStaticInterfaceTraits<T, AccessorPolicyStaticInterface>::FallbackAccessorPolicy;
+        using AccessorPolicy = AccessorPolicyStaticInterfaceTraits<T, AccessorPolicyStaticInterface>::FallbackAccessorPolicy;
     };
 }
 

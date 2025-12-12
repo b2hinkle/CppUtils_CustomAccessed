@@ -11,7 +11,7 @@
 /*
 * Accessor policies are used to define custom accessor behavior (e.g. getters/setters). Must specialize a `AccessorPolicyTraits` with its static interface `AccessorPolicyStaticInterface_t` for it to be findable by `CustomAccessed`.
 */
-namespace CppUtils::AccessorPolicies
+namespace CppUtils
 {
     /*
     * Getter accessor policy for function definition externalization.
@@ -102,13 +102,13 @@ namespace CppUtils::AccessorPolicies
     };
 }
 
-namespace CppUtils::AccessorPolicies
+namespace CppUtils
 {
     template <auto UserCallablePtr>
-    using Get = CppUtils::AccessorPolicies::AccessorPolicy_GenericGetter<UserCallablePtr>;
+    using Get = AccessorPolicy_GenericGetter<UserCallablePtr>;
     
     template <auto UserCallablePtr>
-    using Set = CppUtils::AccessorPolicies::AccessorPolicy_GenericSetter<UserCallablePtr>;
+    using Set = AccessorPolicy_GenericSetter<UserCallablePtr>;
 }
 
 

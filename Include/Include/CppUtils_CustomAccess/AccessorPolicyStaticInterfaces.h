@@ -11,7 +11,7 @@
 /*
 * 
 */
-namespace CppUtils::AccessorPolicies
+namespace CppUtils
 {
     /*
     * Static interface for getter accessor policies. Enforces requirements, and dispatches to getter policies.
